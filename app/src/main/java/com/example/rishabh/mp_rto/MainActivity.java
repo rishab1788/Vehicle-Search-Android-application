@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView2;
     Button button;
     EditText editText;
-    String url = "http://mprest.herokuapp.com/num/MP21m4019";
+    String url = "http://mprest.herokuapp.com/num/";
 
 
     @Override
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         tvIsConnected = (TextView) findViewById(R.id.tvIsConnected);
         textView2 = (TextView) findViewById(R.id.textView2);
         button = (Button) findViewById(R.id.button);
-        editText= (EditText) findViewById(R.id.editText);
+        editText = (EditText) findViewById(R.id.editText);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -51,16 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
                         InputStream inputStream = null;
                         String result = "";
+
                         try {
 
-                       System.out.println(url+editText.getText());
+                            System.out.println(url + editText.getText());
+                           String number=url;
+                            url = url + editText.getText();
 
                             // create HttpClient
                             HttpClient httpclient = new DefaultHttpClient();
 
                             // make GET request to the given URL
                             HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
+url=number;
                             // receive response as inputStream
                             inputStream = httpResponse.getEntity().getContent();
                             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -80,30 +83,25 @@ public class MainActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             System.out.print(e + "mprest.herokuapp.com/num/MP21m4019");
                         }
-                        char r[]=result.toCharArray();
-                        for (int i=0;i<result.length();i++)
-                        {
-                            if (r[i]=='{')
-                            {
-                                r[i]=' ';
+                        char r[] = result.toCharArray();
+                        for (int i = 0; i < result.length(); i++) {
+                            if (r[i] == '{') {
+                                r[i] = ' ';
                             }
 
-                            if (r[i]=='}')
-                            {
-                                r[i]=' ';
+                            if (r[i] == '}') {
+                                r[i] = ' ';
                             }
-                            if (r[i]=='"')
-                            {
-                                r[i]=' ';
+                            if (r[i] == '"') {
+                                r[i] = ' ';
                             }
-                            if (r[i]==',')
-                            {
-                                r[i]='\n';
+                            if (r[i] == ',') {
+                                r[i] = '\n';
                             }
 
                         }
 
-                        result= new String(r);
+                        result = new String(r);
                         textView2.setText(result);
 
                     }
